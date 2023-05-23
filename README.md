@@ -1,7 +1,7 @@
 # VMWare Auditor
 
 Programs to help infosec professionals get useful information from a VMWare stack.  As of the first release, there is one tool:
-    * vcenter.py -- Connects to a vCenter or ESXi server to provide information ESXi hosts and connected virtual machines
+* vcenter.py -- Connects to a vCenter or ESXi server to provide information ESXi hosts and connected virtual machines
 
 Information collected includes many items from the Center for Internet Security (CIS) VMWare ESXi v7 Benchmark.
 
@@ -10,6 +10,8 @@ VMWare Auditor is delivered as:
 * Python scripts for Linux, MacOS and other platforms where Python is already installed.  A recent version of Python should suffice -- it's been tested on Python 3.8 and later, but other v3 versions of Python might be OK
 * Docker container at https://hub.docker.com/r/flyguy62n/vmware-auditor
 * Windows ZIP file.  This includes a redistributable/embedded version of Python for Windows (v3.10.11) as well as the Python package dependencies.
+
+As of this first release, there is not currently a "save file" feature, but it will be coming.  Instead, consider using the Linux `tee` command to create a saved file of the output or use copy/paste from the screen to Notepad, etc.
 
 See below for additional notes.
 
