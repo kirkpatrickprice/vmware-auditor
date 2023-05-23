@@ -1,0 +1,2 @@
+argparse
+pyvmomi>=v6.5.0.2017.5-1
