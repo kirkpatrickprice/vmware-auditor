@@ -23,7 +23,7 @@ If someone else has more success, please share!
 # Python Scripts for Linux and MacOS
 If you already have Python installed, this is a pretty easy way to run VMWare Auditor.  But, if you have Docker already at-hand, consider that method as it's literally one `docker run` command.
 
-1.  `git clone https://github.com/flyguy62n/vmware-auditor` to make a local copy
+1.  `git clone https://github.com/kirkpatrickprice/vmware-auditor` to make a local copy
 2.  And then `python3 <toolname>.py -h` should do it.
 
 Note: These are written in Python and will need some basic dependencies met.  See `requirements.txt`.  If you're familiar with installing Python modules using `pip`, you'll know what to do.  If you're not, see below for a [#crash-course-for-python-virtual-environments-and-installing-requirements](crash course) and a few commands to get you started (all commands assume Linux -- and probably Ubuntu, but they should work on MacOS too)
