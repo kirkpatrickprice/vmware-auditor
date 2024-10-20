@@ -21,12 +21,12 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
 
 1. (Recommended) Create a Python virtual environment to isolate this from any other Python apps on your system.
 
-    **MacOS and Linux**
+    **MacOS and Linux Shell/Terminal**
 
         python3 -m venv .venv-vmware
         source .venv-vmware/bin/activate
         
-    **Windows**
+    **Windows PowerShell**
 
         py -m venv .venv-vmware
         bin/Scripts/activate
