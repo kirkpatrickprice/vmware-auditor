@@ -45,7 +45,7 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
     vcenter --help
     ```
 
-    The results will be saved in the current folder as `vmware_auditor\<hostname>.txt` or to the `path\to\filename` you provide with `-f`.  If you don't provide the `--host` paramter on the command line, it will prompt you for a filename to use instead, which will be written to the `vmware_auditor\` folder.
+    The results will be saved in the current folder as `vmware_auditor\<hostname>.txt` or to the `path\to\filename` you provide with `-f`.  If you don't provide the `--host` paramater on the command line, it will prompt you for a filename to use instead, which will be written to the `vmware_auditor\` folder.
 
 4. When you're done, either just close the command prompt window or deactivate the Python virtual environment if you still need the window for other things:
 
