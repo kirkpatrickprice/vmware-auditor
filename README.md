@@ -8,7 +8,7 @@ Information collected includes many items from the Center for Internet Security 
 # Running VMWare Auditor Tools
 VMWare Auditor is delivered as:
 * Python scripts for Linux, MacOS and other platforms where Python is already installed.  A recent version of Python should suffice -- it's been tested on Python 3.8 and later, but other v3 versions of Python might be OK
-* Docker container at https://hub.docker.com/r/flyguy62n/vmware-auditor
+* Docker container at [Docker Hub](https://hub.docker.com/r/flyguy62n/vmware-auditor)
 * OS-specific [releases](https://github.com/kirkpatrickprice/vmware-auditor/releases)
 
 See below for additional notes.
@@ -45,7 +45,7 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
     vcenter --help
     ```
 
-    The results will be saved in the current folder as `vmware_auditor\<hostname>.txt` or to the `path\to\filename you` provide with `-f`.  If you don't provide the `--host` paramter on the command line, it will prompt you for a filename to use instead, which will be written to the `vmware_auditor\` folder.
+    The results will be saved in the current folder as `vmware_auditor\<hostname>.txt` or to the `path\to\filename` you provide with `-f`.  If you don't provide the `--host` paramter on the command line, it will prompt you for a filename to use instead, which will be written to the `vmware_auditor\` folder.
 
 4. When you're done, either just close the command prompt window or deactivate the Python virtual environment if you still need the window for other things:
     ```
@@ -57,7 +57,9 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
 # Docker Container
 From a functioning Docker environment:
 
-    `docker run -v /results:. -ti --rm --network=host flyguy62n/vmware-auditor`
+    ```
+    docker run -v /results:. -ti --rm --network=host flyguy62n/vmware-auditor
+    ```
 
 NOTES:
 * The `-v /results:.` is important for the output file.  The program detects if it's running inside a Docker container and writes the results to `/results`.  If you're not familiar with Docker, the `-v` maps the `/results` directory inside the container to your current directory (`.`) outside the container.  
