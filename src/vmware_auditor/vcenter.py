@@ -7,13 +7,20 @@ Provides classes and basic functions for collecting security-related information
 '''
 
 __author__='Randy Bartels <rjbartels [at] outlook.com>'
-__version__='0.1.0'
 
+
+from getpass import getpass
+from os import makedirs
+from pathlib import Path
+import argparse
+import copy
+import ssl
+import sys
 
 from pyVmomi import vim
 from pyVim.connect import SmartConnect, Disconnect
-from getpass import getpass
-import ssl, argparse, copy, sys
+
+from vmware_auditor import __version__
 #import xlsxwriter
 
 GLOBALS={
@@ -493,6 +500,11 @@ def getVirtualMachines(vmFolder) -> list:
 
     return results
 
+def is_docker():
+    # Taken from https://stackoverflow.com/questions/43878953/how-does-one-detect-if-one-is-running-within-a-docker-container-within-python
+    cgroup = Path('/proc/self/cgroup')
+    return Path('/.dockerenv').is_file() or cgroup.is_file() and 'docker' in cgroup.read_text()
+
 def login (siConfig: dict) -> SmartConnect:
     '''
     Expects dict(host, user, pwd).  Returns a connected SmartConnect object
@@ -551,8 +563,14 @@ def main():
     parser.add_argument(
         '-p', '--password',
         dest='pwd',
-        help='You really shouldn\'t use this, but if you insist...',
+        help='You really shouldn\'t use this, but if you insist... (default = user-prompted)',
         metavar='PASSWORD',
+    )
+    parser.add_argument(
+        '-f', '--file',
+        dest='filename',
+        help='Override the results path/to/filename (default "./vmware_auditor/<hostname>.txt")',
+        metavar="PATH/TO/FILENAME",
     )
     parser.add_argument(
         '--version',
@@ -562,11 +580,43 @@ def main():
 
     siConfig=copy.deepcopy(vars(parser.parse_args()))
 
+    # Set up the output file
+    if siConfig['filename']:
+        outfile = Path(str(siConfig['filename']))
+    else:
+        try:
+            filename = siConfig['host']+'.txt'
+        except TypeError:
+            filename = input('Enter output filename (will be appended to "vmware_auditor\" folder): ')
+        if is_docker():
+            # Hard code the path the /results directory, which should be a mapped volume from the Docker run command line
+            try:
+                _ = input('Running in Docker.  Press ENTER to confirm that you mapped the /results directory in your "docker run -v /results:..." command or press CTRL-C to quit.')
+            except KeyboardInterrupt:
+                print('Use "docker run -v /results:. -ti --rm --network=host flyguy62n/vmware_auditor" to run the container')
+                print('If you''d like to change the destination folder, change -v /results:<to-your-path>')
+                sys.exit()
+            outfile = Path('/results/vmware_auditor/{filename}')
+        else:
+            outfile = Path.cwd() / 'vmware_auditor' / filename
+    
+    try:
+        print (f'Output results will be written to {outfile}.  Any existing file will be overwritten.\n')
+        _ = input('Press ENTER to continue or CTRL-C to change the output file destination')
+    except KeyboardInterrupt:
+            print('\n\nNo harm no foul...')
+            sys.exit()
+    makedirs (str(outfile.absolute().parent), exist_ok=True)
+    # Remove the 'filename' entry from the siConfig dictionary as it messes up pyvmomi login method
+    del siConfig['filename']
+    
     si=login(siConfig)
     # Blanking out the password now that we're logged in
     siConfig['pwd']=None
     content=si.RetrieveContent()
 
+
+    # Get the data centers from vCenter
     dcs = getObjs(content, [vim.Datacenter])
 
     # Traverse the inventory and print VM configurations
@@ -580,11 +630,17 @@ def main():
         for vm in getVirtualMachines(dc.vmFolder):
             vmResults.append(VirtualMachine(siConfig['host'], vm))
 
-    for host in esxiResults:
-        print(host)
 
-    for vm in vmResults:
-        print(vm)
+    # Get the results
+    with open(outfile, 'w', encoding='utf-8') as f:
+        
+        for host in esxiResults:
+            print(host)
+            print(host, file=f)
+
+        for vm in vmResults:
+            print(vm)
+            print(vm, file=f)
     
     # Disconnect from vCenter
     Disconnect(si)
