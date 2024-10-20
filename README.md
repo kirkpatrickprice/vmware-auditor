@@ -22,18 +22,21 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
 1. (Recommended) Create a Python virtual environment to isolate this from any other Python apps on your system.
 
     **MacOS and Linux**
+
         ```
         python3 -m venv .venv-vmware
         source .venv-vmware/bin/activate
         ```
 
     **Windows**
+
         ```
         py -m venv .venv-vmware
         bin/Scripts/activate
         ```
 
 2. Install VMWare Auditor from PyPI
+
     ```
     pip install vmware_auditor
     ```
@@ -41,6 +44,7 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
     This will also create an OS-specific executable link to `vcenter.py` and place it on your path.
 
 3. Run VMWare Auditor
+
     ```
     vcenter --help
     ```
@@ -48,6 +52,7 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
     The results will be saved in the current folder as `vmware_auditor\<hostname>.txt` or to the `path\to\filename` you provide with `-f`.  If you don't provide the `--host` paramter on the command line, it will prompt you for a filename to use instead, which will be written to the `vmware_auditor\` folder.
 
 4. When you're done, either just close the command prompt window or deactivate the Python virtual environment if you still need the window for other things:
+
     ```
     deactivate
     ```
