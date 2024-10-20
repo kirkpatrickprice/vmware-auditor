@@ -23,18 +23,14 @@ If you already have Python installed, this is the easiest way to run VMWare Audi
 
     **MacOS and Linux**
 
-        ```
         python3 -m venv .venv-vmware
         source .venv-vmware/bin/activate
-        ```
-
+        
     **Windows**
 
-        ```
         py -m venv .venv-vmware
         bin/Scripts/activate
-        ```
-
+        
 2. Install VMWare Auditor from PyPI
 
     ```
